@@ -8,10 +8,11 @@ import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 import { selectIsAuth } from '../../redux/slices/auth';
 import { useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import axios from '../../axios';
 
 export const AddPost = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const [text, setText] = React.useState('');
@@ -20,6 +21,8 @@ export const AddPost = () => {
   const [tags, setTags] = React.useState('');
   const [imageUrl, setImageUrl] = React.useState('');
   const inputFileRef = React.useRef(null);
+
+  const isEditing = Boolean(id);
 
   const handleChangeFile = async (event) => {
     try {
@@ -44,6 +47,23 @@ export const AddPost = () => {
     setText(value);
   }, []); // Это контролирумый редактор (сторонний к.р.). useCallback это особенность этой библиотеки. Функция, которая передается в эту библиотеку обязана быть юс колбеком.
 
+  React.useEffect(() => {
+    if (id) {
+      axios
+        .get(`/posts/${id}`)
+        .then(({ data }) => {
+          setTitle(data.title);
+          setImageUrl(data.imageUrl);
+          setText(data.text);
+          setTags(data.tags.join(','));
+        })
+        .catch((err) => {
+          console.warn(err);
+          alert('Ошибка при получении статьи');
+        });
+    }
+  }, []);
+
   const onSubmit = async () => {
     try {
       setLoading(true);
@@ -55,11 +75,13 @@ export const AddPost = () => {
         text,
       };
 
-      const { data } = await axios.post('/posts', fields);
+      const { data } = isEditing
+        ? await axios.patch(`/posts/${id}`, fields)
+        : await axios.post('/posts', fields);
 
-      const id = data._id;
+      const _id = isEditing ? id : data._id;
 
-      navigate(`/posts/${id}`);
+      navigate(`/posts/${_id}`);
     } catch (err) {
       console.warn(err);
       alert('Ошибка при создании статьи!');
@@ -120,7 +142,7 @@ export const AddPost = () => {
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
-          Опубликовать
+          {isEditing ? 'Сохранить' : 'Опубликовать'}
         </Button>
         <Button size="large">Отмена</Button>
       </div>

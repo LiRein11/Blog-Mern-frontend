@@ -7,30 +7,52 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
-import { fetchPosts, fetchTags } from '../redux/slices/posts';
+import { fetchPostsDate, fetchTags } from '../redux/slices/posts';
+import axios from '../axios';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const { posts, tags } = useSelector((state) => state.posts);
   const userData = useSelector((state) => state.auth.data);
+  const [data, setData] = React.useState([]);
+  const [b, setB] = React.useState(true);
+  const [index, setIndex] = React.useState(0);
 
   const isPostsLoading = posts.status === 'loading';
   const isTagsLoading = tags.status === 'loading';
-
   React.useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchPostsDate());
     dispatch(fetchTags());
+    axios
+      .get(`/posts/views`)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.warn(err);
+        alert('Ошибка при получении статьи');
+      });
   }, []);
+
+  const sortByDate = () => {
+    setB(true);
+    setIndex(0);
+  };
+
+  const sortByViewsCount = () => {
+    setB(false);
+    setIndex(1);
+  };
 
   return (
     <>
-      <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
-        <Tab label="Новые" />
-        <Tab label="Популярные" />
+      <Tabs style={{ marginBottom: 15 }} value={index} aria-label="basic tabs example">
+        <Tab label="Новые" onClick={sortByDate} />
+        <Tab label="Популярные" onClick={sortByViewsCount} />
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
+          {(isPostsLoading ? [...Array(5)] : b ? posts.items : data).map((obj, index) =>
             isPostsLoading ? (
               <Post key={index} isLoading={true} />
             ) : (
