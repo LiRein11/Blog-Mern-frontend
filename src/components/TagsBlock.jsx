@@ -14,7 +14,7 @@ import axios from '../axios';
 
 export const TagsBlock = ({ items, isLoading = true }) => {
   const params = useParams();
-  console.log(params);
+  
   const [tags, setTags] = React.useState([]);
 
   // React.useEffect(() => {

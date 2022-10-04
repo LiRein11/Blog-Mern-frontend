@@ -1,12 +1,32 @@
-import React from "react";
+import React from 'react';
 
-import styles from "./AddComment.module.scss";
+import styles from './AddComment.module.scss';
 
-import TextField from "@mui/material/TextField";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import TextField from '@mui/material/TextField';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import { useParams } from 'react-router-dom';
+import axios from '../../axios';
 
 export const Index = () => {
+  // const {id} = useParams();
+  // const [comment, setComment] = React.useState('');
+
+  // React.useEffect(() => {
+  //   if (id) {
+  //     axios
+  //       .get(`/posts/${id}`)
+  //       .then(({ data }) => {
+  //         setComment(data.comment);
+  //       })
+  //       .catch((err) => {
+  //         console.warn(err);
+  //         alert('Ошибка при получении комментария');
+  //       });
+  //   }
+  // }, []);
+
+
   return (
     <>
       <div className={styles.root}>

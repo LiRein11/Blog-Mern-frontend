@@ -59,7 +59,7 @@ export const AddPost = () => {
         })
         .catch((err) => {
           console.warn(err);
-          alert('Ошибка при получении статьи');
+          alert('Ошибка при получении статьи'); 
         });
     }
   }, []);

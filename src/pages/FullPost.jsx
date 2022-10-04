@@ -6,13 +6,22 @@ import { Index } from '../components/AddComment';
 import { CommentsBlock } from '../components/CommentsBlock';
 import axios from '../axios';
 import ReactMarkdown from 'react-markdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchComments } from '../redux/slices/posts';
 
 export const FullPost = () => {
   const [data, setData] = React.useState();
+  const [dataComment, setDataComment] = React.useState();
   const [isLoading, setLoading] = React.useState(true);
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const {comments} = useSelector((state) => state.posts);
+
+  console.log(comments, '215215')
+  console.log(dataComment, '11111111')
 
   React.useEffect(() => {
+    dispatch(fetchComments());
     axios
       .get(`/posts/${id}`)
       .then((res) => {
@@ -23,8 +32,17 @@ export const FullPost = () => {
         console.warn(err);
         alert('Ошибка при получении статьи');
       });
+    axios
+      .get(`/posts/comments/commbypost/${id}`)
+      .then((res) => {
+        setDataComment(res.data);
+      })
+      .catch((err) => {
+        console.warn(err);
+        alert('Ошибка при получении комментариев');
+      });
   }, []);
-console.log(data)
+  // console.log(data);
   if (isLoading) {
     return <Post isLoading={isLoading} />;
   }
@@ -45,22 +63,40 @@ console.log(data)
         <ReactMarkdown children={data.text} />
       </Post>
       <CommentsBlock
-        items={[
-          {
-            user: {
-              fullName: 'Вася Пупкин',
-              avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-            },
-            text: 'Это тестовый комментарий 555555',
-          },
-          {
-            user: {
-              fullName: 'Иван Иванов',
-              avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-            },
-            text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-          },
-        ]}
+        // items={[
+        //   {
+        //     user: {
+        //       fullName: 'Вася Пупкин',
+        //       avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
+        //     },
+        //     text: 'Это тестовый комментарий 555555',
+        //   },
+        //   {
+        //     user: {
+        //       fullName: 'Иван Иванов',
+        //       avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
+        //     },
+        //     text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
+        //   },
+        // ]}
+        // itemss={[
+        //   {
+        //     user: {
+        //       fullName: 'Вася Пупкин',
+        //       avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
+        //     },
+        //     text: 'Это тестовый комментарий 555555',
+        //   },
+        //   {
+        //     user: {
+        //       fullName: 'Иван Иванов',
+        //       avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
+        //     },
+        //     text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
+        //   },
+        // ]}
+        itemss={dataComment}
+        id = {id}
         isLoading={false}>
         <Index />
       </CommentsBlock>
