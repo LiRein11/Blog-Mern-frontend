@@ -17,25 +17,14 @@ export const CommentsBlock = ({ itemss, id, items, children, isLoading = true })
 
 React.useEffect(() => {
   dispatch(fetchComments());
-//   // axios
-//   //   .get(`/posts/comments/comm`)
-//   //   .then((res) => {
-//   //     setDataComment(res.data);
-//   //   })
-//   //   .catch((err) => {
-//   //     console.warn(err);
-//   //     alert('Ошибка при получении комментариев');
-//   //   });
 }, []);
-// id = String(id)
-console.log(typeof(comments.items[0].post))
-console.log(typeof(id))
+
   return (
     <SideBlock title="Комментарии">
       <List>
-        {(isLoading ? [...Array(5)] : comments.items).map((obj, index) => (
+        {(isLoading ? [...Array(5)] : items).map((obj, index) => (
           <React.Fragment key={index}>
-            {id === obj.post ? (<ListItem alignItems="flex-start">
+            {id === obj.post || id === '/' ? (<ListItem alignItems="flex-start">
               <ListItemAvatar>
                 {isLoading ? (
                   <Skeleton variant="circular" width={40} height={40} />

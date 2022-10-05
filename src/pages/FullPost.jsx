@@ -17,9 +17,6 @@ export const FullPost = () => {
   const dispatch = useDispatch();
   const {comments} = useSelector((state) => state.posts);
 
-  console.log(comments, '215215')
-  console.log(dataComment, '11111111')
-
   React.useEffect(() => {
     dispatch(fetchComments());
     axios
@@ -42,7 +39,7 @@ export const FullPost = () => {
         alert('Ошибка при получении комментариев');
       });
   }, []);
-  // console.log(data);
+ 
   if (isLoading) {
     return <Post isLoading={isLoading} />;
   }
@@ -63,39 +60,7 @@ export const FullPost = () => {
         <ReactMarkdown children={data.text} />
       </Post>
       <CommentsBlock
-        // items={[
-        //   {
-        //     user: {
-        //       fullName: 'Вася Пупкин',
-        //       avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-        //     },
-        //     text: 'Это тестовый комментарий 555555',
-        //   },
-        //   {
-        //     user: {
-        //       fullName: 'Иван Иванов',
-        //       avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-        //     },
-        //     text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-        //   },
-        // ]}
-        // itemss={[
-        //   {
-        //     user: {
-        //       fullName: 'Вася Пупкин',
-        //       avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-        //     },
-        //     text: 'Это тестовый комментарий 555555',
-        //   },
-        //   {
-        //     user: {
-        //       fullName: 'Иван Иванов',
-        //       avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-        //     },
-        //     text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-        //   },
-        // ]}
-        itemss={dataComment}
+        items={dataComment}
         id = {id}
         isLoading={false}>
         <Index />

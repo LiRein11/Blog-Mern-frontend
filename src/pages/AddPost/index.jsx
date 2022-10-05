@@ -32,7 +32,7 @@ export const AddPost = () => {
       const { data } = await axios.post('/upload', formData);
       setImageUrl(data.url);
     } catch (err) {
-      console.warn(err);
+      console.log(err);
       alert('Ошибка при загрузке файла!');
     }
   };
@@ -59,7 +59,7 @@ export const AddPost = () => {
         })
         .catch((err) => {
           console.warn(err);
-          alert('Ошибка при получении статьи'); 
+          alert('Ошибка при получении статьи');
         });
     }
   }, []);

@@ -10,12 +10,12 @@ import Skeleton from '@mui/material/Skeleton';
 
 import { SideBlock } from './SideBlock';
 import { Link, useParams } from 'react-router-dom';
-import axios from '../axios';
+// import axios from '../axios';
 
 export const TagsBlock = ({ items, isLoading = true }) => {
-  const params = useParams();
+  // const params = useParams();
   
-  const [tags, setTags] = React.useState([]);
+  // const [tags, setTags] = React.useState([]);
 
   // React.useEffect(() => {
   //   axios

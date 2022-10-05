@@ -34,6 +34,11 @@ export const Header = () => {
                 <Button onClick={onClickLogout} variant="contained" color="error">
                   Выйти
                 </Button>
+                <Link to="/edit">
+                  <Button variant="contained">
+                    Редактировать пользователя
+                  </Button>
+                </Link>
               </>
             ) : (
               <>

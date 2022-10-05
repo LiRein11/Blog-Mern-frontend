@@ -17,6 +17,9 @@ export const Home = () => {
   const [data, setData] = React.useState([]);
   const [b, setB] = React.useState(true);
   const [index, setIndex] = React.useState(0);
+  const [id, setId]  = React.useState('/');
+
+  console.log(id, '1111122223333')
 
   const isPostsLoading = posts.status === 'loading';
   const isTagsLoading = tags.status === 'loading';
@@ -45,7 +48,7 @@ export const Home = () => {
     setB(false);
     setIndex(1);
   };
-
+console.log(posts.items, '5731512605612')
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={index} aria-label="basic tabs example">
@@ -66,7 +69,7 @@ export const Home = () => {
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}
-                commentsCount={3}
+                commentsCount={obj.comments.length}
                 tags={obj.tags}
                 isEditable={userData?._id === obj.user._id} // Убирается возможность редактировать статью, если человек не создавал эту статью
               />
@@ -77,23 +80,7 @@ export const Home = () => {
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
             items={comments.items}
-            // items={[
-            //   {
-            //     user: {
-            //       fullName: 'Вася Пупкин',
-            //       avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-            //     },
-            //     text: 'Это тестовый комментарий',
-            //   },
-            //   {
-            //     user: {
-            //       fullName: 'Иван Иванов',
-            //       avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-            //     },
-            //     text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-            //   },
-            // ]}
-
+            id={id}
             isLoading={false}
           />
         </Grid>
