@@ -101,7 +101,7 @@ export const AddPost = () => {
       },
     }),
     [],
-  ); // useMemo тоже необходимо, чтобы компонент работал корректно.
+  ); // useMemo тоже необходимо, чтобы компонент работал корректно. (options необходимо для библиотеки чтобы текст был красивым)
 
   if (!window.localStorage.getItem('token') && !isAuth) {
     return <Navigate to="/" />;
@@ -139,7 +139,7 @@ export const AddPost = () => {
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
-      <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
+      <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} /> 
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
           {isEditing ? 'Сохранить' : 'Опубликовать'}

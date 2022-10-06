@@ -49,7 +49,7 @@ console.log(userData)
       <div className={styles.root}>
         <Avatar
           classes={{ root: styles.avatar }}
-          src={userData.avatarUrl}
+          src={`http://localhost:4444${userData.avatarUrl}`}
         />
         <div className={styles.form}>
           <TextField

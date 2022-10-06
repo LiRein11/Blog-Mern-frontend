@@ -15,6 +15,8 @@ const UserEdit = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const inputFileRef = React.useRef(null);
+  const [isLoading, setLoading] = React.useState(false);
+  const [id, setId] = React.useState('');
 
   const handleChangeFile = async (event) => {
     try {
@@ -42,6 +44,7 @@ const UserEdit = () => {
         setAvatarUrl(data.avatarUrl);
         setFullName(data.fullName);
         setEmail(data.email);
+        setId(data._id);
       })
       .catch((err) => {
         console.warn(err);
@@ -54,20 +57,21 @@ const UserEdit = () => {
       // setLoading(true);
 
       const fields = {
-        email,
         avatarUrl,
         fullName,
+        email,
       };
 
-      await axios.patch('/auth/me', fields);
+      await axios.patch(`/auth/me/${id}`, fields);
 
       window.location.reload();
-
     } catch (err) {
       console.warn(err);
       alert('Ошибка при обновлении пользователя!');
     }
   };
+
+  console.log(fullName);
 
   if (!window.localStorage.getItem('token') && !isAuth) {
     return <Navigate to="/" />;

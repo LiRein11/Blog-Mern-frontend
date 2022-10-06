@@ -24,24 +24,30 @@ React.useEffect(() => {
       <List>
         {(isLoading ? [...Array(5)] : items).map((obj, index) => (
           <React.Fragment key={index}>
-            {id === obj.post || id === '/' ? (<ListItem alignItems="flex-start">
-              <ListItemAvatar>
+            {id === obj.post || id === '/' ? (
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  {isLoading ? (
+                    <Skeleton variant="circular" width={40} height={40} />
+                  ) : (
+                    <Avatar
+                      alt={obj.user.fullName}
+                      src={`http://localhost:4444${obj.user.avatarUrl}`}
+                    />
+                  )}
+                </ListItemAvatar>
                 {isLoading ? (
-                  <Skeleton variant="circular" width={40} height={40} />
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Skeleton variant="comment" height={25} width={120} />
+                    <Skeleton variant="comment" height={18} width={230} />
+                  </div>
                 ) : (
-                  <Avatar alt={obj.user.fullName} src={obj.user.avatarUrl} />
+                  <ListItemText primary={obj.user.fullName} secondary={obj.text} />
                 )}
-              </ListItemAvatar>
-              {isLoading ? (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <Skeleton variant="comment" height={25} width={120} />
-                  <Skeleton variant="comment" height={18} width={230} />
-                </div>
-              ) : (
-                <ListItemText primary={obj.user.fullName} secondary={obj.text} />
-              )}
-            </ListItem>) : ''}
-            
+              </ListItem>
+            ) : (
+              ''
+            )}
             <Divider variant="inset" component="li" />
           </React.Fragment>
         ))}
